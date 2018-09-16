@@ -1,22 +1,53 @@
 <HTML>
-	<head>
-		<!-- VUE -->
-		<!-- development version, includes helpful console warnings -->
-		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-		<!-- production version, optimized for size and speed -->
-		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
-	</head>
-	<body>
-		<div id="app">
-		  {{ message }}
+
+<head>
+	<!-- MATERIALIZE -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="customMaterial.js"></script>
+</head>
+
+<!-- Colors:
+Dark Purple: #7B1FA2
+Light Purple: #E1BEE7
+Purple: #9C27B0
+Accent: Blue: #536DFE
+Primary Text: Black: #212121
+Secondary Text: Grey: #757575 -->
+
+<body>
+	<nav class="purple">
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo center">Life Graph</a>
+			<a href="#" data-target="mobile-demo" class="sidenav-trigger">
+				<i class="material-icons">menu</i>
+			</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="sass.html">Sass</a></li>
+				<li><a href="badges.html">Components</a></li>
+				<li><a href="collapsible.html">JavaScript</a></li>
+			</ul>
 		</div>
+		<ul class="sidenav" id="mobile-demo">
+			<li><a href="sass.html">Sass</a></li>
+			<li><a href="badges.html">Components</a></li>
+			<li><a href="collapsible.html">JavaScript</a></li>
+		</ul>
+	</nav>
+
+	<div class="container">
 		<div class="ct-chart ct-perfect-fourth"></div>
-	</body>
-	<!-- MOMENT -->
-	<script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
-	<!-- CHARTIST -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-	<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-	<!-- APP -->
-	<script src="app.js"></script>
+	</div>
+</body>
+<!-- MOMENT -->
+<script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+<!-- CHARTIST -->
+<script src="https://cdn.jsdelivr.net/npm/chartist-plugin-tooltip@0.0.11/chartist-plugin-tooltip.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<!-- APP -->
+<script src="rawData.js"></script>
+<script src="app.js"></script>
+
 </HTML>
