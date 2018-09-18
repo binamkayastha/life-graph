@@ -8,6 +8,12 @@ Milestones:
 
 ## Technology
 
-Written in Vue JS with Framework 7 and Materialize.
+Materialize: Material UI
 
+Chartist: Make charts
 
+## Contributing
+
+`npm install`
+
+`npm run watch`

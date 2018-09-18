@@ -1,3 +1,12 @@
+require("./rawData.js")
+require("chartist")
+require("chartist-plugin-tooltip")
+
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  displayGraphFromRawData(rawAugust);
+});
+
 const Transaction =  {
   rawData: {},
   // Assumes data has the parameters, and that the values are expected
@@ -15,15 +24,15 @@ const Transaction =  {
   parseValue: function(param) {
     const rawString = this.rawData[param]
     const regex = this.paramToRegexMap[param]
-    matchedString = regex.exec(rawString)[0]
+    matchedString = regex.exec(rawString)[1]
     return this.paramToParseFunction[param](matchedString)
   },
   paramToRegexMap: {
-    "postingDate": /\d\d\/\d\d\/\d\d\d\d/, // Matches date
-    "description": /(?<=\d\d\d\d\s).*/, // Matches everything after date
-    "type": /(?<=Type )\S*/, // Matches any nonwhitespace after "Type "
-    "amount": /(?<=\$)\S*/, // Matches any nonwhitespaces after $
-    "balance": /(?<=\$)\S*/, // Matches any nonwhitespaces after $
+    "postingDate": /(\d\d\/\d\d\/\d\d\d\d)/, // Matches date
+    "description": /\d\d\d\d\s(.*)/, // Matches everything after date
+    "type": /Type (\S*)/, // Matches any nonwhitespace after "Type "
+    "amount": /\$(\S*)/, // Matches any nonwhitespaces after $
+    "balance": /\$(\S*)/, // Matches any nonwhitespaces after $
   },
   paramToParseFunction: {
     "postingDate": Date.parse,
@@ -37,10 +46,14 @@ const Transaction =  {
   }
 }
 
-displayGraphFromRawData(rawAugust);
+function displayGraphFromRawData(rawData) {
+  transactionList = createTransactionListFromRawData(rawData)
+  chartData = makeChartData(transactionList)
+  createChart(chartData)
+}
 
-function displayGraphFromRawData(rawMonthData) {
-  const rawTransactionList = getRawDataList(rawAugust);
+function createTransactionListFromRawData(rawData) {
+  const rawTransactionList = getRawDataList(rawData)
   const transactionParams = Transaction.getParamList()
   dataFits = isListMultipleOfParams(rawTransactionList, transactionParams)
   if(!dataFits) {
@@ -48,8 +61,7 @@ function displayGraphFromRawData(rawMonthData) {
     return false // Better to throw exception here
   }
   transactionList = getListOfTransactionObjects(rawTransactionList, transactionParams);
-  chartData = makeChartData(transactionList)
-  createChart(chartData)
+  return transactionList
 }
 
 function getRawDataList(rawMonthData) {
@@ -75,9 +87,6 @@ function getListOfTransactionObjects(rawDataList, params) {
     const newObj = Transaction.createTransactionObj(rawObj)
     listOfObjects.push(newObj)
   }
-  console.log(rawDataList)
-  console.log("transformed into")
-  console.log(listOfObjects)
   return listOfObjects
 }
 
@@ -87,11 +96,6 @@ function makeChartData(transactionList) {
   let cummulativeSpend = 0;
   // BofA data table is recent -> old, we want old -> recent
   transactionList.reverse()
-  console.log("Transaction list 3 elem: ")
-  console.log(
-    JSON.stringify(transactionList[0])
-    + JSON.stringify(transactionList[1])
-    + JSON.stringify(transactionList[2]))
   transactionList.forEach(function(transaction) {
     if(transaction.type != "Purchases")
       return;
@@ -107,7 +111,7 @@ function makeChartData(transactionList) {
   for (let key in graphDictionary) {
     if (graphDictionary.hasOwnProperty(key)) {
       graphData.push({
-        // meta: "Description",
+        meta: "Description",
         x: key,
         y: graphDictionary[key]
       }) }
@@ -124,17 +128,20 @@ function createChart(chartData) {
       },
     ]
   }, {
-    axisX: {
-      type: Chartist.FixedScaleAxis,
-      divisor: 5,
-      labelInterpolationFnc: function(value) {
-        return moment(value).format('MMM D');
-      }
-    },
-    // plugins: [
-    //   Chartist.pulgins.tooltip()
-    // ]
-  });
+      axisX: {
+        type: Chartist.FixedScaleAxis,
+        divisor: 5,
+        labelInterpolationFnc: function (value) {
+          return moment(value).format('MMM D');
+        }
+      },
+      // low: 0,
+      // high: 8,
+      // fullWidth: true,
+      // plugins: [
+      //   // Chartist.plugins.tooltip()
+      // ],
+    });
 }
 
 

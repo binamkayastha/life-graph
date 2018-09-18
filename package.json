@@ -1,0 +1,31 @@
+{
+  "name": "life-graph",
+  "version": "1.0.0",
+  "description": "Improve your life with graphs and data.",
+  "main": "app.js",
+  "dependencies": {
+    "browserify": "^16.2.2",
+    "chartist": "^0.11.0",
+    "chartist-plugin-tooltip": "0.0.11",
+    "jquery": "^3.3.1",
+    "tape": "^4.9.1"
+  },
+  "devDependencies": {
+    "watchify": "^3.11.0"
+  },
+  "scripts": {
+    "build": "browserify app.js -o bundle.js",
+    "watch": "watchify app.js -o bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binamkayastha/life-graph.git"
+  },
+  "author": "Binam Kayastha",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/binamkayastha/life-graph/issues"
+  },
+  "homepage": "https://github.com/binamkayastha/life-graph#readme"
+}
