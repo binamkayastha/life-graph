@@ -1,6 +1,7 @@
 require("./rawData.js")
 require("chartist")
-require("chartist-plugin-tooltip")
+// require("chartist-plugin-tooltips") // Can't use npm package cause bug
+// https://github.com/tmmdata/chartist-plugin-tooltip/issues/148
 
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -135,12 +136,10 @@ function createChart(chartData) {
           return moment(value).format('MMM D');
         }
       },
-      // low: 0,
-      // high: 8,
-      // fullWidth: true,
-      // plugins: [
-      //   // Chartist.plugins.tooltip()
-      // ],
+      fullWidth: true,
+      plugins: [
+        Chartist.plugins.tooltip()
+      ],
     });
 }
 
